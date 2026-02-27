@@ -1,0 +1,238 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Compiler Snapshots > Should compile simple template to valid HTML (Web) 1`] = `"<!DOCTYPE html><html><head><link rel="stylesheet" href="basic.css"></head><body><div class="container" data-wm-type="view"><span data-wm-type="text">Hello, Max!</span></div></body></html>"`;
+
+exports[`Compiler Snapshots > Should compile simple template to valid JSON (Native) 1`] = `
+{
+  "platform": "native",
+  "tree": [
+    {
+      "action": "START_NODE",
+      "props": {
+        "class": "container",
+      },
+      "type": "View",
+    },
+    {
+      "action": "START_NODE",
+      "props": {},
+      "type": "Text",
+    },
+    {
+      "action": "TEXT",
+      "value": "Hello, Max!",
+    },
+    {
+      "action": "END_NODE",
+      "type": "Text",
+    },
+    {
+      "action": "END_NODE",
+      "type": "View",
+    },
+  ],
+}
+`;
+
+exports[`Compiler Snapshots > Should handle complex nesting, semantic, symbols 1`] = `"<!DOCTYPE html><html><head><link rel="stylesheet" href="complex.css"></head><body><main class="root" data-wm-type="view"><header class="header" data-wm-type="view"><h1 data-wm-type="text">Title: WebMAX Ultimate Test</h1><span class="subtitle" data-wm-type="text">Version: 0.1</span></header><div class="content" data-wm-type="view"><span data-wm-type="text">Экранирование:<>&" '</span><span data-wm-type="text">Missing value: {missing_value}</span><div class="card-list" data-wm-type="view"><div class="card" data-wm-type="view"><strong data-wm-type="text">Card 1</strong><button class="btn" data-wm-type="action"><span data-wm-type="text">Press me!</span></button></div></div></div><footer data-wm-type="view"><span data-wm-type="text">© 2026 WebMAX</span></footer></main></body></html>"`;
+
+exports[`Compiler Snapshots > Should handle complex nesting, semantic, symbols 2`] = `
+{
+  "platform": "native",
+  "tree": [
+    {
+      "action": "START_NODE",
+      "props": {
+        "class": "root",
+        "semantic": "main",
+      },
+      "type": "View",
+    },
+    {
+      "action": "START_NODE",
+      "props": {
+        "class": "header",
+        "semantic": "header",
+      },
+      "type": "View",
+    },
+    {
+      "action": "START_NODE",
+      "props": {
+        "semantic": "h1",
+      },
+      "type": "Text",
+    },
+    {
+      "action": "TEXT",
+      "value": "Title: WebMAX Ultimate Test",
+    },
+    {
+      "action": "END_NODE",
+      "type": "Text",
+    },
+    {
+      "action": "START_NODE",
+      "props": {
+        "class": "subtitle",
+      },
+      "type": "Text",
+    },
+    {
+      "action": "TEXT",
+      "value": "Version: 0.1",
+    },
+    {
+      "action": "END_NODE",
+      "type": "Text",
+    },
+    {
+      "action": "END_NODE",
+      "type": "View",
+    },
+    {
+      "action": "START_NODE",
+      "props": {
+        "class": "content",
+      },
+      "type": "View",
+    },
+    {
+      "action": "START_NODE",
+      "props": {},
+      "type": "Text",
+    },
+    {
+      "action": "TEXT",
+      "value": "Экранирование:",
+    },
+    {
+      "action": "TEXT",
+      "value": "<",
+    },
+    {
+      "action": "TEXT",
+      "value": ">",
+    },
+    {
+      "action": "TEXT",
+      "value": "&",
+    },
+    {
+      "action": "TEXT",
+      "value": "" '",
+    },
+    {
+      "action": "END_NODE",
+      "type": "Text",
+    },
+    {
+      "action": "START_NODE",
+      "props": {},
+      "type": "Text",
+    },
+    {
+      "action": "TEXT",
+      "value": "Missing value: {missing_value}",
+    },
+    {
+      "action": "END_NODE",
+      "type": "Text",
+    },
+    {
+      "action": "START_NODE",
+      "props": {
+        "class": "card-list",
+      },
+      "type": "View",
+    },
+    {
+      "action": "START_NODE",
+      "props": {
+        "class": "card",
+      },
+      "type": "View",
+    },
+    {
+      "action": "START_NODE",
+      "props": {
+        "semantic": "strong",
+      },
+      "type": "Text",
+    },
+    {
+      "action": "TEXT",
+      "value": "Card 1",
+    },
+    {
+      "action": "END_NODE",
+      "type": "Text",
+    },
+    {
+      "action": "START_NODE",
+      "props": {
+        "class": "btn",
+        "onclick": "alert('OK')",
+      },
+      "type": "Action",
+    },
+    {
+      "action": "START_NODE",
+      "props": {},
+      "type": "Text",
+    },
+    {
+      "action": "TEXT",
+      "value": "Press me!",
+    },
+    {
+      "action": "END_NODE",
+      "type": "Text",
+    },
+    {
+      "action": "END_NODE",
+      "type": "Action",
+    },
+    {
+      "action": "END_NODE",
+      "type": "View",
+    },
+    {
+      "action": "END_NODE",
+      "type": "View",
+    },
+    {
+      "action": "END_NODE",
+      "type": "View",
+    },
+    {
+      "action": "START_NODE",
+      "props": {
+        "semantic": "footer",
+      },
+      "type": "View",
+    },
+    {
+      "action": "START_NODE",
+      "props": {},
+      "type": "Text",
+    },
+    {
+      "action": "TEXT",
+      "value": "© 2026 WebMAX",
+    },
+    {
+      "action": "END_NODE",
+      "type": "Text",
+    },
+    {
+      "action": "END_NODE",
+      "type": "View",
+    },
+    {
+      "action": "END_NODE",
+      "type": "View",
+    },
+  ],
+}
+`;

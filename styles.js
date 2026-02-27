@@ -25,13 +25,15 @@ class WebMAXStyleProcessor {
             if (decl.type !== "declaration") return;
 
             // Convert kebab-case (background-color) to camelCase (backgroundColor)
-            const prop = decl.property.replace(/-([a-z])/g, (g) =>
+            const cleanProp = decl.property.toLowerCase();
+            const prop = cleanProp.replace(/-([a-z])/g, (g) =>
               g[1].toUpperCase(),
             );
 
             if (styleConfig.isSupported(prop)) {
               let value = decl.value;
-              if (value.endsWith("px")) value = parseInt(value);
+              const lowerValue = String(value).toLowerCase();
+              if (lowerValue.endsWith("px")) value = parseInt(value);
               if (!isNaN(value) && typeof value !== "boolean")
                 value = Number(value);
 

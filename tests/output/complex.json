@@ -1,0 +1,198 @@
+{
+  "platform": "native",
+  "tree": [
+    {
+      "action": "START_NODE",
+      "type": "View",
+      "props": {
+        "semantic": "main",
+        "class": "root"
+      }
+    },
+    {
+      "action": "START_NODE",
+      "type": "View",
+      "props": {
+        "semantic": "header",
+        "class": "header"
+      }
+    },
+    {
+      "action": "START_NODE",
+      "type": "Text",
+      "props": {
+        "semantic": "h1"
+      }
+    },
+    {
+      "action": "TEXT",
+      "value": "Title: WebMAX Ultimate Test"
+    },
+    {
+      "action": "END_NODE",
+      "type": "Text"
+    },
+    {
+      "action": "START_NODE",
+      "type": "Text",
+      "props": {
+        "class": "subtitle"
+      }
+    },
+    {
+      "action": "TEXT",
+      "value": "Version: 0.1"
+    },
+    {
+      "action": "END_NODE",
+      "type": "Text"
+    },
+    {
+      "action": "END_NODE",
+      "type": "View"
+    },
+    {
+      "action": "START_NODE",
+      "type": "View",
+      "props": {
+        "class": "content"
+      }
+    },
+    {
+      "action": "START_NODE",
+      "type": "Text",
+      "props": {}
+    },
+    {
+      "action": "TEXT",
+      "value": "Экранирование:"
+    },
+    {
+      "action": "TEXT",
+      "value": "<"
+    },
+    {
+      "action": "TEXT",
+      "value": ">"
+    },
+    {
+      "action": "TEXT",
+      "value": "&"
+    },
+    {
+      "action": "TEXT",
+      "value": "\" '"
+    },
+    {
+      "action": "END_NODE",
+      "type": "Text"
+    },
+    {
+      "action": "START_NODE",
+      "type": "Text",
+      "props": {}
+    },
+    {
+      "action": "TEXT",
+      "value": "Missing value: {missing_value}"
+    },
+    {
+      "action": "END_NODE",
+      "type": "Text"
+    },
+    {
+      "action": "START_NODE",
+      "type": "View",
+      "props": {
+        "class": "card-list"
+      }
+    },
+    {
+      "action": "START_NODE",
+      "type": "View",
+      "props": {
+        "class": "card"
+      }
+    },
+    {
+      "action": "START_NODE",
+      "type": "Text",
+      "props": {
+        "semantic": "strong"
+      }
+    },
+    {
+      "action": "TEXT",
+      "value": "Card 1"
+    },
+    {
+      "action": "END_NODE",
+      "type": "Text"
+    },
+    {
+      "action": "START_NODE",
+      "type": "Action",
+      "props": {
+        "class": "btn",
+        "onclick": "alert('OK')"
+      }
+    },
+    {
+      "action": "START_NODE",
+      "type": "Text",
+      "props": {}
+    },
+    {
+      "action": "TEXT",
+      "value": "Press me!"
+    },
+    {
+      "action": "END_NODE",
+      "type": "Text"
+    },
+    {
+      "action": "END_NODE",
+      "type": "Action"
+    },
+    {
+      "action": "END_NODE",
+      "type": "View"
+    },
+    {
+      "action": "END_NODE",
+      "type": "View"
+    },
+    {
+      "action": "END_NODE",
+      "type": "View"
+    },
+    {
+      "action": "START_NODE",
+      "type": "View",
+      "props": {
+        "semantic": "footer"
+      }
+    },
+    {
+      "action": "START_NODE",
+      "type": "Text",
+      "props": {}
+    },
+    {
+      "action": "TEXT",
+      "value": "© 2026 WebMAX"
+    },
+    {
+      "action": "END_NODE",
+      "type": "Text"
+    },
+    {
+      "action": "END_NODE",
+      "type": "View"
+    },
+    {
+      "action": "END_NODE",
+      "type": "View"
+    }
+  ]
+}
