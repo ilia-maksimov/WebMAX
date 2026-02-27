@@ -1,0 +1,29 @@
+{
+  "platform": "native",
+  "tree": [
+    {
+      "action": "START_NODE",
+      "type": "View",
+      "props": {
+        "class": "container"
+      }
+    },
+    {
+      "action": "START_NODE",
+      "type": "Text",
+      "props": {}
+    },
+    {
+      "action": "TEXT",
+      "value": "Hello, Max!"
+    },
+    {
+      "action": "END_NODE",
+      "type": "Text"
+    },
+    {
+      "action": "END_NODE",
+      "type": "View"
+    }
+  ]
+}
