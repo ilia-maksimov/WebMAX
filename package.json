@@ -4,6 +4,18 @@
   "description": "The SEO-First Cross-Platform Framework",
   "main": "index.js",
   "types": "index.d.ts",
+  "bin": {
+    "webmax-build": "./bin/cli.js"
+  },
+  "files": [
+    "bin",
+    "index.js",
+    "index.d.ts",
+    "compiler.js",
+    "engine.js",
+    "styles.js",
+    "style-config.js"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,5 +29,9 @@
   "bugs": {
     "url": "https://github.com/ilia-maksimov/WebMAX/issues"
   },
-  "homepage": "https://github.com/ilia-maksimov/WebMAX#readme"
+  "homepage": "https://github.com/ilia-maksimov/WebMAX#readme",
+  "dependencies": {
+    "css": "^3.0.0",
+    "htmlparser2": "^10.1.0"
+  }
 }

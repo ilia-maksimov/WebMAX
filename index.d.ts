@@ -1,5 +1,3 @@
-// index.d.ts
-
 /**
  * A list of allowed styles that are guaranteed
  * to work equally well in Web (CSS) and Native (Flexbox/Yoga)
