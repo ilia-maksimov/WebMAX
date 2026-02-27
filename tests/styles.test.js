@@ -1,20 +1,16 @@
 import { describe, it, expect } from "vitest";
-import { StyleProcessor } from "../index";
-import fs from "fs";
-import path from "path";
+import StyleProcessor from "../styles";
 
 describe("StyleProcessor Logic", () => {
-  it("Should convert px to numbers for Native", () => {
+  it("Should convert px to numbers for Native and scope styles", () => {
     const css = ".card { padding: 20px; border-radius: 10; }";
-    const tempPath = path.resolve(__dirname, "test.css");
-    fs.writeFileSync(tempPath, css);
 
-    const styles = StyleProcessor.parse(tempPath);
+    const { styleMap, scopedCSS } = StyleProcessor.processScoped(css, "a1b2c3");
 
-    expect(styles.card.padding).toBe(20);
-    expect(styles.card.borderRadius).toBe(10);
+    expect(styleMap.card.padding).toBe(20);
+    expect(styleMap.card.borderRadius).toBe(10);
 
-    fs.unlinkSync(tempPath);
+    expect(scopedCSS).toContain(".card[data-wm-a1b2c3]");
   });
 
   it("StyleProcessor: corner cases", () => {
@@ -32,19 +28,15 @@ describe("StyleProcessor Logic", () => {
     }
     .UPPERCASE { FONT-SIZE: 12PX; }
   `;
-    const tempPath = path.resolve(__dirname, "dirty.css");
-    fs.writeFileSync(tempPath, css);
 
-    const styles = StyleProcessor.parse(tempPath);
+    const { styleMap } = StyleProcessor.processScoped(css, "corner");
 
-    expect(styles.empty).toEqual({});
+    expect(styleMap.empty).toEqual({});
 
-    expect(styles.units.margin).toBe(15);
-    expect(styles.units.padding).toBe(10);
-    expect(styles.units.width).toBe("100%");
+    expect(styleMap.units.margin).toBe(15);
+    expect(styleMap.units.padding).toBe(10);
+    expect(styleMap.units.width).toBe("100%");
 
-    expect(styles.UPPERCASE.fontSize).toBe(12);
-
-    fs.unlinkSync(tempPath);
+    expect(styleMap.UPPERCASE.fontSize).toBe(12);
   });
 });
