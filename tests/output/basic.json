@@ -1,11 +1,15 @@
 {
   "platform": "native",
+  "compiledAt": "2026-02-27T20:58:41.301Z",
   "tree": [
     {
       "action": "START_NODE",
       "type": "View",
       "props": {
-        "class": "container"
+        "class": "container",
+        "style": {
+          "padding": 20
+        }
       }
     },
     {

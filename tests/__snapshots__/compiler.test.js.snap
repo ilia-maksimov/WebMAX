@@ -1,15 +1,32 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Compiler Snapshots > Should compile simple template to valid HTML (Web) 1`] = `"<!DOCTYPE html><html><head><link rel="stylesheet" href="basic.css"></head><body><div class="container" data-wm-type="view"><span data-wm-type="text">Hello, Max!</span></div></body></html>"`;
+exports[`Compiler Snapshots > Should compile simple template to valid HTML (Web) 1`] = `
+"<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <style>.container[data-wm-626173] {
+  padding: 20px;
+}</style>
+  </head>
+  <body>
+    <div class="container" data-wm-626173 data-wm-type="view"><span data-wm-626173 data-wm-type="text">Hello, Max!</span></div>
+  </body>
+</html>"
+`;
 
 exports[`Compiler Snapshots > Should compile simple template to valid JSON (Native) 1`] = `
 {
+  "compiledAt": "2026-02-27T20:58:41.301Z",
   "platform": "native",
   "tree": [
     {
       "action": "START_NODE",
       "props": {
         "class": "container",
+        "style": {
+          "padding": 20,
+        },
       },
       "type": "View",
     },
@@ -34,10 +51,22 @@ exports[`Compiler Snapshots > Should compile simple template to valid JSON (Nati
 }
 `;
 
-exports[`Compiler Snapshots > Should handle complex nesting, semantic, symbols 1`] = `"<!DOCTYPE html><html><head><link rel="stylesheet" href="complex.css"></head><body><main class="root" data-wm-type="view"><header class="header" data-wm-type="view"><h1 data-wm-type="text">Title: WebMAX Ultimate Test</h1><span class="subtitle" data-wm-type="text">Version: 0.1</span></header><div class="content" data-wm-type="view"><span data-wm-type="text">Экранирование:<>&" '</span><span data-wm-type="text">Missing value: {missing_value}</span><div class="card-list" data-wm-type="view"><div class="card" data-wm-type="view"><strong data-wm-type="text">Card 1</strong><button class="btn" data-wm-type="action"><span data-wm-type="text">Press me!</span></button></div></div></div><footer data-wm-type="view"><span data-wm-type="text">© 2026 WebMAX</span></footer></main></body></html>"`;
+exports[`Compiler Snapshots > Should handle complex nesting, semantic, symbols 1`] = `
+"<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <style></style>
+  </head>
+  <body>
+    <main class="root" data-wm-636f6d data-wm-type="view"><header class="header" data-wm-636f6d data-wm-type="view"><h1 data-wm-636f6d data-wm-type="text">Title: WebMAX Ultimate Test</h1><span class="subtitle" data-wm-636f6d data-wm-type="text">Version: 0.1</span></header><div class="content" data-wm-636f6d data-wm-type="view"><span data-wm-636f6d data-wm-type="text">Экранирование: <>& " '</span><span data-wm-636f6d data-wm-type="text">Missing value: {missing_value}</span><div class="card-list" data-wm-636f6d data-wm-type="view"><div class="card" data-wm-636f6d data-wm-type="view"><strong data-wm-636f6d data-wm-type="text">Card 1</strong><button class="btn" onclick="alert('OK')" data-wm-636f6d data-wm-type="action"><span data-wm-636f6d data-wm-type="text">Press me!</span></button></div></div></div><footer data-wm-636f6d data-wm-type="view"><span data-wm-636f6d data-wm-type="text">© 2026 WebMAX</span></footer></main>
+  </body>
+</html>"
+`;
 
 exports[`Compiler Snapshots > Should handle complex nesting, semantic, symbols 2`] = `
 {
+  "compiledAt": "2026-02-27T20:58:41.308Z",
   "platform": "native",
   "tree": [
     {

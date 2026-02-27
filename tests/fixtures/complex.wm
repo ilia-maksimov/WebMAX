@@ -1,24 +1,35 @@
-<View semantic="main" class="root">
-  <View semantic="header" class="header">
-    <Text semantic="h1">Title: {title}</Text>
-    <Text class="subtitle">Version: {version}</Text>
-  </View>
+<template>
+  <View semantic="main" class="root">
+    <View semantic="header" class="header">
+      <Text semantic="h1">Title: {title}</Text>
+      <Text class="subtitle">Version: {version}</Text>
+    </View>
 
-  <View class="content">
-    <Text>Экранирование: &lt; &gt; &amp; " '</Text>
-    <Text>Missing value: {missing_value}</Text>
-    
-    <View class="card-list">
-      <View class="card">
-        <Text semantic="strong">Card 1</Text>
-        <Action class="btn" onclick="alert('OK')">
-          <Text>Press me!</Text>
-        </Action>
+    <View class="content">
+      <Text>Экранирование: &lt; &gt; &amp; " '</Text>
+      <Text>Missing value: {missing_value}</Text>
+      
+      <View class="card-list">
+        <View class="card">
+          <Text semantic="strong">Card 1</Text>
+          <Action class="btn" onclick="alert('OK')">
+            <Text>Press me!</Text>
+          </Action>
+        </View>
       </View>
     </View>
-  </View>
 
-  <View semantic="footer">
-    <Text>© 2026 WebMAX</Text>
+    <View semantic="footer">
+      <Text>© 2026 WebMAX</Text>
+    </View>
   </View>
-</View>
+</template>
+
+<script>
+export default function() {
+  return {
+    title: "WebMAX Ultimate Test",
+    version: 0.1
+  };
+}
+</script>

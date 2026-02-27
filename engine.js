@@ -10,24 +10,27 @@ class WebMAXEngine {
 
   getTagName(type, semantic) {
     const lowerType = type.toLowerCase();
+
     if (this.platform === "web") {
       if (lowerType === "view") return semantic || this.tagMap.view;
       if (lowerType === "text") return semantic || this.tagMap.text;
       if (lowerType === "action") return this.tagMap.action;
       return lowerType;
     }
-    return type;
+
+    return type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
   }
 
-  /**
-   * Generates opening tag
-   */
   openTag(type, props = {}) {
     const tag = this.getTagName(type, props.semantic);
 
     if (this.platform === "web") {
-      const className = props.class || props.className || "";
-      const classAttr = className ? ` class="${className}"` : "";
+      const attributes = Object.entries(props)
+        .filter(([k]) => k !== "style" && k !== "semantic")
+        .map(([k, v]) => (v === "" ? k : `${k}="${v}"`))
+        .join(" ");
+
+      const attrString = attributes ? ` ${attributes}` : "";
 
       let styleAttr = "";
       if (props.style && typeof props.style === "object") {
@@ -40,7 +43,7 @@ class WebMAXEngine {
         styleAttr = styleString ? ` style="${styleString}"` : "";
       }
 
-      return `<${tag}${classAttr}${styleAttr} data-wm-type="${type.toLowerCase()}">`;
+      return `<${tag}${attrString}${styleAttr} data-wm-type="${type.toLowerCase()}">`;
     }
 
     const nativeType =

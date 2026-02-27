@@ -1,58 +1,68 @@
 const css = require("css");
-const fs = require("fs");
 const styleConfig = require("./style-config");
 
 class WebMAXStyleProcessor {
-  /**
-   * Reads a CSS file and converts it into a JSON object
-   * compatible with both Web and Native.
-   */
-  static parse(cssPath) {
-    if (!fs.existsSync(cssPath)) return {};
+  static processScoped(cssContent, componentId) {
+    if (!cssContent) return { styleMap: {}, scopedCSS: "" };
 
-    try {
-      const content = fs.readFileSync(cssPath, "utf8");
-      const ast = css.parse(content);
-      const styles = {};
+    const ast = css.parse(cssContent);
+    const styleMap = {};
+    const scopeAttr = `data-wm-${componentId}`;
 
-      ast.stylesheet.rules.forEach((rule) => {
-        if (rule.type === "rule") {
-          // Simplification: taking only the first class selector
-          const selector = rule.selectors[0].replace(".", "");
-          styles[selector] = {};
+    ast.stylesheet.rules.forEach((rule) => {
+      if (rule.type === "rule") {
+        rule.selectors = rule.selectors.map((sel) => {
+          if (sel.startsWith(".")) {
+            return `${sel}[${scopeAttr}]`;
+          }
+          return `${sel}[${scopeAttr}]`;
+        });
 
-          rule.declarations.forEach((decl) => {
-            if (decl.type !== "declaration") return;
+        const firstSelector = rule.selectors[0]
+          .split("[")[0]
+          .trim()
+          .replace(/^\./, "");
 
-            // Convert kebab-case (background-color) to camelCase (backgroundColor)
-            const cleanProp = decl.property.toLowerCase();
-            const prop = cleanProp.replace(/-([a-z])/g, (g) =>
-              g[1].toUpperCase(),
-            );
+        styleMap[firstSelector] = {};
 
-            if (styleConfig.isSupported(prop)) {
-              let value = decl.value;
-              const lowerValue = String(value).toLowerCase();
-              if (lowerValue.endsWith("px")) value = parseInt(value);
-              if (!isNaN(value) && typeof value !== "boolean")
-                value = Number(value);
+        rule.declarations.forEach((decl) => {
+          if (decl.type !== "declaration") return;
 
-              styles[selector][prop] = value;
-            } else {
-              console.warn(
-                `\x1b[33m[WebMAX Style Warning]\x1b[0m Property "${decl.property}" is not supported on Native. Skipping.`,
-              );
+          // 1. Приводим всё к нижнему регистру (FONT-SIZE -> font-size)
+          const cleanProp = decl.property.toLowerCase();
+
+          // 2. Превращаем в camelCase (font-size -> fontSize)
+          const prop = cleanProp.replace(/-([a-z])/g, (g) =>
+            g[1].toUpperCase(),
+          );
+
+          if (styleConfig.isSupported(prop)) {
+            let value = decl.value;
+
+            // Приводим значение к нижнему регистру для обработки единиц (12PX -> 12px)
+            const lowerValue = String(value).toLowerCase();
+
+            if (lowerValue.endsWith("px")) {
+              value = parseInt(lowerValue);
             }
-          });
-        }
-      });
-      return styles;
-    } catch (e) {
-      console.error(
-        `\x1b[31m[WebMAX Style Error]\x1b[0m Failed to parse CSS: ${e.message}`,
-      );
-      return {};
-    }
+            if (!isNaN(value) && value !== "" && typeof value !== "boolean") {
+              value = Number(value);
+            }
+
+            styleMap[firstSelector][prop] = value;
+          } else {
+            console.warn(
+              `\x1b[33m[WebMAX Style Warning]\x1b[0m Property "${decl.property}" not supported on Native.`,
+            );
+          }
+        });
+      }
+    });
+
+    return {
+      styleMap,
+      scopedCSS: css.stringify(ast),
+    };
   }
 }
 
