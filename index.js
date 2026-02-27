@@ -1,14 +1,9 @@
-const WebMAXEngine = require("./engine");
-
-const engine = new WebMAXEngine("web");
+const Compiler = require("./compiler");
+const Engine = require("./engine");
+const StyleProcessor = require("./styles");
 
 module.exports = {
-  View: (props, ...children) =>
-    engine.createElement("View", props, ...children),
-  Text: (props, ...children) =>
-    engine.createElement("Text", props, ...children),
-  Action: (props, ...children) =>
-    engine.createElement("Action", props, ...children),
-
-  compile: (platform) => new WebMAXEngine(platform),
+  Compiler,
+  Engine,
+  StyleProcessor,
 };
