@@ -7,7 +7,7 @@
 
 const path = require("path");
 const fs = require("fs");
-const WebMAXCompiler = require("../compiler");
+const WebMAXCompiler = require("../core/compiler");
 
 async function run() {
   // 1. Parse Arguments
@@ -38,7 +38,6 @@ async function run() {
     // 3. Load Pre-render Logic (.data.js)
     const dataPath = inputPath.replace(".wm", ".data.js");
     let dynamicData = {};
-
     if (fs.existsSync(dataPath)) {
       // Clear cache to allow fresh data on every run if used in dev-server later
       delete require.cache[require.resolve(dataPath)];
@@ -61,7 +60,7 @@ async function run() {
 
     // 4. Compile
     const compiler = new WebMAXCompiler(platform);
-    compiler.compileFile(inputPath, outputPath, dynamicData);
+    compiler.compile(inputPath, outputPath, dynamicData);
 
     console.log("\x1b[32m%s\x1b[0m", `✔ Successfully compiled [${platform}]`);
     console.log(`  Source: ${input}`);

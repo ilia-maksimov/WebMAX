@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <style>.container[data-wm-626173] {
-  padding: 20px;
-}</style>
-</head>
-<body>
-  <div class="container" data-wm-626173 data-wm-type="view"><span data-wm-626173 data-wm-type="text">Hello, <span data-wm-bind="user">Max</span>!</span></div>
-  <script>
-    window.WebMAX = {
+window.WebMAX = {
   hydrate(componentData) {
     const bindings = {};
     const methods = componentData.methods || {};
@@ -49,10 +38,3 @@
     return state;
   },
 };
- 
-    window.state = WebMAX.hydrate({
-      data: {"user":"Max"}
-    });
-  </script>
-</body>
-</html>

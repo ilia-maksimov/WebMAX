@@ -1,13 +1,14 @@
 {
   "platform": "native",
-  "compiledAt": "2026-02-27T20:58:41.308Z",
+  "compiledAt": "2026-03-02T20:05:39.854Z",
   "tree": [
     {
       "action": "START_NODE",
       "type": "View",
       "props": {
         "semantic": "main",
-        "class": "root"
+        "class": "root",
+        "events": {}
       }
     },
     {
@@ -15,19 +16,26 @@
       "type": "View",
       "props": {
         "semantic": "header",
-        "class": "header"
+        "class": "header",
+        "events": {}
       }
     },
     {
       "action": "START_NODE",
       "type": "Text",
       "props": {
-        "semantic": "h1"
+        "semantic": "h1",
+        "events": {}
       }
     },
     {
       "action": "TEXT",
-      "value": "Title: WebMAX Ultimate Test"
+      "value": "Title: "
+    },
+    {
+      "action": "TEXT",
+      "value": "WebMAX Ultimate Test",
+      "binding": "title"
     },
     {
       "action": "END_NODE",
@@ -37,12 +45,18 @@
       "action": "START_NODE",
       "type": "Text",
       "props": {
-        "class": "subtitle"
+        "class": "subtitle",
+        "events": {}
       }
     },
     {
       "action": "TEXT",
-      "value": "Version: 0.1"
+      "value": "Version: "
+    },
+    {
+      "action": "TEXT",
+      "value": "0.1",
+      "binding": "version"
     },
     {
       "action": "END_NODE",
@@ -56,13 +70,16 @@
       "action": "START_NODE",
       "type": "View",
       "props": {
-        "class": "content"
+        "class": "content",
+        "events": {}
       }
     },
     {
       "action": "START_NODE",
       "type": "Text",
-      "props": {}
+      "props": {
+        "events": {}
+      }
     },
     {
       "action": "TEXT",
@@ -91,11 +108,18 @@
     {
       "action": "START_NODE",
       "type": "Text",
-      "props": {}
+      "props": {
+        "events": {}
+      }
     },
     {
       "action": "TEXT",
-      "value": "Missing value: {missing_value}"
+      "value": "Missing value: "
+    },
+    {
+      "action": "TEXT",
+      "value": "{missing_value}",
+      "binding": "missing_value"
     },
     {
       "action": "END_NODE",
@@ -105,21 +129,24 @@
       "action": "START_NODE",
       "type": "View",
       "props": {
-        "class": "card-list"
+        "class": "card-list",
+        "events": {}
       }
     },
     {
       "action": "START_NODE",
       "type": "View",
       "props": {
-        "class": "card"
+        "class": "card",
+        "events": {}
       }
     },
     {
       "action": "START_NODE",
       "type": "Text",
       "props": {
-        "semantic": "strong"
+        "semantic": "strong",
+        "events": {}
       }
     },
     {
@@ -135,13 +162,17 @@
       "type": "Action",
       "props": {
         "class": "btn",
-        "onclick": "alert('OK')"
+        "events": {
+          "click": "alert('OK')"
+        }
       }
     },
     {
       "action": "START_NODE",
       "type": "Text",
-      "props": {}
+      "props": {
+        "events": {}
+      }
     },
     {
       "action": "TEXT",
@@ -171,13 +202,16 @@
       "action": "START_NODE",
       "type": "View",
       "props": {
-        "semantic": "footer"
+        "semantic": "footer",
+        "events": {}
       }
     },
     {
       "action": "START_NODE",
       "type": "Text",
-      "props": {}
+      "props": {
+        "events": {}
+      }
     },
     {
       "action": "TEXT",

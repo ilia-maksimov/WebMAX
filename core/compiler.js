@@ -10,7 +10,7 @@ class WebMAXCompiler {
     this.engine = new WebMAXEngine(platform);
   }
 
-  async compileSFC(inputPath, outputPath) {
+  async compile(inputPath, outputPath, dynamicData) {
     const content = fs.readFileSync(inputPath, "utf8");
 
     const componentName = path.basename(inputPath, ".wm");
@@ -35,8 +35,9 @@ class WebMAXCompiler {
           .trim();
 
         const result = new Function(code)();
-
-        data = typeof result === "function" ? result() : result;
+        this.lastExtractedData =
+          typeof result === "function" ? result() : result;
+        data = this.lastExtractedData;
       } catch (e) {
         console.error(`\x1b[31m[WebMAX Script Error]\x1b[0m: ${e.message}`);
       }
@@ -52,50 +53,82 @@ class WebMAXCompiler {
 
     const templateParser = new htmlparser2.Parser(
       {
-        onopentag: (name, attribs) => {
-          const processedProps = { ...attribs };
+        onopentag: (name, attributes) => {
+          const currentScopeId = componentId;
 
-          if (this.platform === "web") {
-            processedProps[scopeAttr] = "";
-          }
+          const props = {};
+          const events = {};
 
-          const className = attribs.class || attribs.className;
-          if (className && styleMap[className]) {
-            if (this.platform === "native") {
-              processedProps.style = {
-                ...(processedProps.style || {}),
-                ...styleMap[className],
-              };
+          Object.entries(attributes).forEach(([key, val]) => {
+            if (key.startsWith("on")) {
+              const eventName = key.slice(2).toLowerCase();
+              events[eventName] = val;
+            } else {
+              props[key] = val;
             }
-          }
+          });
+          props.events = events;
 
-          const actualTag = this.engine.getTagName(
-            name,
-            processedProps.semantic,
-          );
+          const actualTag = this.engine.getTagName(name, props.semantic);
+
           tagStack.push(actualTag);
 
           if (this.platform === "web") {
-            output += this.engine.openTag(name, processedProps);
+            output += this.engine.openTag(name, props, currentScopeId);
           } else {
-            output.push(this.engine.openTag(name, processedProps));
+            output.push(this.engine.openTag(name, props));
           }
         },
+
         ontext: (text) => {
-          const processedText = text.replace(/\{(\w+)\}/g, (match, key) => {
-            return data && data[key] !== undefined ? String(data[key]) : match;
-          });
+          const regex = /\{(\w+)\}/g;
+          let lastIndex = 0;
+          let match;
 
-          if (!processedText.trim()) return;
+          if (!text.match(regex)) {
+            const cleanText = text.trim();
+            if (!cleanText) return;
+            if (this.platform === "web") {
+              output += text;
+            } else {
+              output.push({ action: "TEXT", value: cleanText });
+            }
+            return;
+          }
 
-          if (this.platform === "web") {
-            output += processedText;
-          } else {
-            output.push({ action: "TEXT", value: processedText.trim() });
+          while ((match = regex.exec(text)) !== null) {
+            const staticPart = text.slice(lastIndex, match.index);
+            const varName = match[1];
+            const initialValue =
+              data[varName] !== undefined ? data[varName] : `{${varName}}`;
+
+            if (staticPart) {
+              if (this.platform === "web") output += staticPart;
+              else output.push({ action: "TEXT", value: staticPart });
+            }
+
+            if (this.platform === "web") {
+              output += `<span data-wm-bind="${varName}">${initialValue}</span>`;
+            } else {
+              output.push({
+                action: "TEXT",
+                value: String(initialValue),
+                binding: varName,
+              });
+            }
+            lastIndex = regex.lastIndex;
+          }
+
+          const tail = text.slice(lastIndex);
+          if (tail) {
+            if (this.platform === "web") output += tail;
+            else output.push({ action: "TEXT", value: tail });
           }
         },
+
         onclosetag: (name) => {
           const lastTag = tagStack.pop();
+
           if (this.platform === "web") {
             output += `</${lastTag}>`;
           } else {
@@ -117,17 +150,28 @@ class WebMAXCompiler {
     const outputDir = path.dirname(outputPath);
     if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
 
+    const runtimePath = path.join(__dirname, "runtime.js");
+    const runtimeCode = fs.existsSync(runtimePath)
+      ? fs.readFileSync(runtimePath, "utf8")
+      : "// Runtime not found";
+
     let finalResult;
     if (this.platform === "web") {
       finalResult = `<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <style>${css}</style>
-  </head>
-  <body>
-    ${content}
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <style>${css}</style>
+</head>
+<body>
+  ${content}
+  <script>
+    ${runtimeCode} 
+    window.state = WebMAX.hydrate({
+      data: ${JSON.stringify(this.lastExtractedData || {})}
+    });
+  </script>
+</body>
 </html>`;
     } else {
       finalResult = JSON.stringify(
@@ -142,9 +186,6 @@ class WebMAXCompiler {
     }
 
     fs.writeFileSync(outputPath, finalResult);
-    console.log(
-      `\x1b[32m[WebMAX]\x1b[0m Compiled [${this.platform}] to ${outputPath}`,
-    );
   }
 }
 
