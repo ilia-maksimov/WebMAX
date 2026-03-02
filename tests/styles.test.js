@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import StyleProcessor from "../styles";
+import StyleProcessor from "../core/styles";
 
 describe("StyleProcessor Logic", () => {
   it("Should convert px to numbers for Native and scope styles", () => {

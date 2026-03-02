@@ -3,41 +3,95 @@
 exports[`Compiler Snapshots > Should compile simple template to valid HTML (Web) 1`] = `
 "<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <style>.container[data-wm-626173] {
+<head>
+  <meta charset="UTF-8">
+  <style>.container[data-wm-626173] {
   padding: 20px;
 }</style>
-  </head>
-  <body>
-    <div class="container" data-wm-626173 data-wm-type="view"><span data-wm-626173 data-wm-type="text">Hello, Max!</span></div>
-  </body>
+</head>
+<body>
+  <div class="container" data-wm-626173 data-wm-type="view"><span data-wm-626173 data-wm-type="text">Hello, <span data-wm-bind="user">Max</span>!</span></div>
+  <script>
+    window.WebMAX = {
+  hydrate(componentData) {
+    const bindings = {};
+    const methods = componentData.methods || {};
+
+    document.querySelectorAll("[data-wm-bind]").forEach((el) => {
+      const key = el.getAttribute("data-wm-bind");
+      if (!bindings[key]) bindings[key] = [];
+      bindings[key].push(el);
+    });
+
+    document.addEventListener("click", (e) => {
+      const target = e.target.closest("[data-wm-on-click]");
+      if (target) {
+        const methodName = target.getAttribute("data-wm-on-click");
+        if (methods[methodName]) {
+          methods[methodName].call(window.state);
+        } else {
+          new Function(methodName).call(window.state);
+        }
+      }
+    });
+
+    window.state = new Proxy(componentData.data || {}, {
+      set(target, key, value) {
+        target[key] = value;
+        if (bindings[key]) {
+          bindings[key].forEach((el) => {
+            el.textContent = value;
+          });
+        }
+        return true;
+      },
+    });
+
+    console.log("WebMAX Hydrated 🚀");
+
+    return state;
+  },
+};
+ 
+    window.state = WebMAX.hydrate({
+      data: {"user":"Max"}
+    });
+  </script>
+</body>
 </html>"
 `;
 
 exports[`Compiler Snapshots > Should compile simple template to valid JSON (Native) 1`] = `
 {
-  "compiledAt": "2026-02-27T20:58:41.301Z",
   "platform": "native",
   "tree": [
     {
       "action": "START_NODE",
       "props": {
         "class": "container",
-        "style": {
-          "padding": 20,
-        },
+        "events": {},
       },
       "type": "View",
     },
     {
       "action": "START_NODE",
-      "props": {},
+      "props": {
+        "events": {},
+      },
       "type": "Text",
     },
     {
       "action": "TEXT",
-      "value": "Hello, Max!",
+      "value": "Hello, ",
+    },
+    {
+      "action": "TEXT",
+      "binding": "user",
+      "value": "Max",
+    },
+    {
+      "action": "TEXT",
+      "value": "!",
     },
     {
       "action": "END_NODE",
@@ -54,25 +108,71 @@ exports[`Compiler Snapshots > Should compile simple template to valid JSON (Nati
 exports[`Compiler Snapshots > Should handle complex nesting, semantic, symbols 1`] = `
 "<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <style></style>
-  </head>
-  <body>
-    <main class="root" data-wm-636f6d data-wm-type="view"><header class="header" data-wm-636f6d data-wm-type="view"><h1 data-wm-636f6d data-wm-type="text">Title: WebMAX Ultimate Test</h1><span class="subtitle" data-wm-636f6d data-wm-type="text">Version: 0.1</span></header><div class="content" data-wm-636f6d data-wm-type="view"><span data-wm-636f6d data-wm-type="text">Экранирование: <>& " '</span><span data-wm-636f6d data-wm-type="text">Missing value: {missing_value}</span><div class="card-list" data-wm-636f6d data-wm-type="view"><div class="card" data-wm-636f6d data-wm-type="view"><strong data-wm-636f6d data-wm-type="text">Card 1</strong><button class="btn" onclick="alert('OK')" data-wm-636f6d data-wm-type="action"><span data-wm-636f6d data-wm-type="text">Press me!</span></button></div></div></div><footer data-wm-636f6d data-wm-type="view"><span data-wm-636f6d data-wm-type="text">© 2026 WebMAX</span></footer></main>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <style></style>
+</head>
+<body>
+  <main class="root" data-wm-636f6d data-wm-type="view"><header class="header" data-wm-636f6d data-wm-type="view"><h1 data-wm-636f6d data-wm-type="text">Title: <span data-wm-bind="title">WebMAX Ultimate Test</span></h1><span class="subtitle" data-wm-636f6d data-wm-type="text">Version: <span data-wm-bind="version">0.1</span></span></header><div class="content" data-wm-636f6d data-wm-type="view"><span data-wm-636f6d data-wm-type="text">Экранирование: <>& " '</span><span data-wm-636f6d data-wm-type="text">Missing value: <span data-wm-bind="missing_value">{missing_value}</span></span><div class="card-list" data-wm-636f6d data-wm-type="view"><div class="card" data-wm-636f6d data-wm-type="view"><strong data-wm-636f6d data-wm-type="text">Card 1</strong><button class="btn" data-wm-on-click="alert('OK')" data-wm-636f6d data-wm-type="action"><span data-wm-636f6d data-wm-type="text">Press me!</span></button></div></div></div><footer data-wm-636f6d data-wm-type="view"><span data-wm-636f6d data-wm-type="text">© 2026 WebMAX</span></footer></main>
+  <script>
+    window.WebMAX = {
+  hydrate(componentData) {
+    const bindings = {};
+    const methods = componentData.methods || {};
+
+    document.querySelectorAll("[data-wm-bind]").forEach((el) => {
+      const key = el.getAttribute("data-wm-bind");
+      if (!bindings[key]) bindings[key] = [];
+      bindings[key].push(el);
+    });
+
+    document.addEventListener("click", (e) => {
+      const target = e.target.closest("[data-wm-on-click]");
+      if (target) {
+        const methodName = target.getAttribute("data-wm-on-click");
+        if (methods[methodName]) {
+          methods[methodName].call(window.state);
+        } else {
+          new Function(methodName).call(window.state);
+        }
+      }
+    });
+
+    window.state = new Proxy(componentData.data || {}, {
+      set(target, key, value) {
+        target[key] = value;
+        if (bindings[key]) {
+          bindings[key].forEach((el) => {
+            el.textContent = value;
+          });
+        }
+        return true;
+      },
+    });
+
+    console.log("WebMAX Hydrated 🚀");
+
+    return state;
+  },
+};
+ 
+    window.state = WebMAX.hydrate({
+      data: {"title":"WebMAX Ultimate Test","version":0.1}
+    });
+  </script>
+</body>
 </html>"
 `;
 
 exports[`Compiler Snapshots > Should handle complex nesting, semantic, symbols 2`] = `
 {
-  "compiledAt": "2026-02-27T20:58:41.308Z",
   "platform": "native",
   "tree": [
     {
       "action": "START_NODE",
       "props": {
         "class": "root",
+        "events": {},
         "semantic": "main",
       },
       "type": "View",
@@ -81,6 +181,7 @@ exports[`Compiler Snapshots > Should handle complex nesting, semantic, symbols 2
       "action": "START_NODE",
       "props": {
         "class": "header",
+        "events": {},
         "semantic": "header",
       },
       "type": "View",
@@ -88,13 +189,19 @@ exports[`Compiler Snapshots > Should handle complex nesting, semantic, symbols 2
     {
       "action": "START_NODE",
       "props": {
+        "events": {},
         "semantic": "h1",
       },
       "type": "Text",
     },
     {
       "action": "TEXT",
-      "value": "Title: WebMAX Ultimate Test",
+      "value": "Title: ",
+    },
+    {
+      "action": "TEXT",
+      "binding": "title",
+      "value": "WebMAX Ultimate Test",
     },
     {
       "action": "END_NODE",
@@ -104,12 +211,18 @@ exports[`Compiler Snapshots > Should handle complex nesting, semantic, symbols 2
       "action": "START_NODE",
       "props": {
         "class": "subtitle",
+        "events": {},
       },
       "type": "Text",
     },
     {
       "action": "TEXT",
-      "value": "Version: 0.1",
+      "value": "Version: ",
+    },
+    {
+      "action": "TEXT",
+      "binding": "version",
+      "value": "0.1",
     },
     {
       "action": "END_NODE",
@@ -123,12 +236,15 @@ exports[`Compiler Snapshots > Should handle complex nesting, semantic, symbols 2
       "action": "START_NODE",
       "props": {
         "class": "content",
+        "events": {},
       },
       "type": "View",
     },
     {
       "action": "START_NODE",
-      "props": {},
+      "props": {
+        "events": {},
+      },
       "type": "Text",
     },
     {
@@ -157,12 +273,19 @@ exports[`Compiler Snapshots > Should handle complex nesting, semantic, symbols 2
     },
     {
       "action": "START_NODE",
-      "props": {},
+      "props": {
+        "events": {},
+      },
       "type": "Text",
     },
     {
       "action": "TEXT",
-      "value": "Missing value: {missing_value}",
+      "value": "Missing value: ",
+    },
+    {
+      "action": "TEXT",
+      "binding": "missing_value",
+      "value": "{missing_value}",
     },
     {
       "action": "END_NODE",
@@ -172,6 +295,7 @@ exports[`Compiler Snapshots > Should handle complex nesting, semantic, symbols 2
       "action": "START_NODE",
       "props": {
         "class": "card-list",
+        "events": {},
       },
       "type": "View",
     },
@@ -179,12 +303,14 @@ exports[`Compiler Snapshots > Should handle complex nesting, semantic, symbols 2
       "action": "START_NODE",
       "props": {
         "class": "card",
+        "events": {},
       },
       "type": "View",
     },
     {
       "action": "START_NODE",
       "props": {
+        "events": {},
         "semantic": "strong",
       },
       "type": "Text",
@@ -201,13 +327,17 @@ exports[`Compiler Snapshots > Should handle complex nesting, semantic, symbols 2
       "action": "START_NODE",
       "props": {
         "class": "btn",
-        "onclick": "alert('OK')",
+        "events": {
+          "click": "alert('OK')",
+        },
       },
       "type": "Action",
     },
     {
       "action": "START_NODE",
-      "props": {},
+      "props": {
+        "events": {},
+      },
       "type": "Text",
     },
     {
@@ -237,13 +367,16 @@ exports[`Compiler Snapshots > Should handle complex nesting, semantic, symbols 2
     {
       "action": "START_NODE",
       "props": {
+        "events": {},
         "semantic": "footer",
       },
       "type": "View",
     },
     {
       "action": "START_NODE",
-      "props": {},
+      "props": {
+        "events": {},
+      },
       "type": "Text",
     },
     {

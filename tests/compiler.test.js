@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import WebMAXCompiler from "../compiler";
+import WebMAXCompiler from "../core/compiler";
 import path from "path";
 import fs from "fs";
 
@@ -11,9 +11,13 @@ describe("Compiler Snapshots", () => {
     const input = path.resolve(__dirname, "fixtures/basic.wm");
     const output = path.resolve(__dirname, "output/basic.html");
 
-    await compilerWeb.compileSFC(input, output);
+    await compilerWeb.compile(input, output);
 
     const result = fs.readFileSync(output, "utf-8");
+
+    // Unstable data
+    delete result.compiledAt;
+
     expect(result).toMatchSnapshot();
   });
 
@@ -21,9 +25,13 @@ describe("Compiler Snapshots", () => {
     const input = path.resolve(__dirname, "fixtures/basic.wm");
     const output = path.resolve(__dirname, "output/basic.json");
 
-    await compilerNative.compileSFC(input, output);
+    await compilerNative.compile(input, output);
 
     const result = JSON.parse(fs.readFileSync(output, "utf-8"));
+
+    // Unstable data
+    delete result.compiledAt;
+
     expect(result).toMatchSnapshot();
   });
 
@@ -32,12 +40,22 @@ describe("Compiler Snapshots", () => {
     const outputWeb = path.resolve(__dirname, "output/complex.html");
     const outputNative = path.resolve(__dirname, "output/complex.json");
 
-    await compilerWeb.compileSFC(input, outputWeb);
-    expect(fs.readFileSync(outputWeb, "utf-8")).toMatchSnapshot();
+    await compilerWeb.compile(input, outputWeb);
 
-    await compilerNative.compileSFC(input, outputNative);
-    expect(
-      JSON.parse(fs.readFileSync(outputNative, "utf-8")),
-    ).toMatchSnapshot();
+    const resultWeb = fs.readFileSync(outputWeb, "utf-8");
+
+    // Unstable data
+    delete resultWeb.compiledAt;
+
+    expect(resultWeb).toMatchSnapshot();
+
+    await compilerNative.compile(input, outputNative);
+
+    const resultNative = JSON.parse(fs.readFileSync(outputNative, "utf-8"));
+
+    // Unstable data
+    delete resultNative.compiledAt;
+
+    expect(resultNative).toMatchSnapshot();
   });
 });

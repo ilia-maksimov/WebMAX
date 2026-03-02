@@ -1,6 +1,6 @@
-const Compiler = require("./compiler");
-const Engine = require("./engine");
-const StyleProcessor = require("./styles");
+const Compiler = require("./core/compiler");
+const Engine = require("./core/engine");
+const StyleProcessor = require("./core/styles");
 
 module.exports = {
   Compiler,

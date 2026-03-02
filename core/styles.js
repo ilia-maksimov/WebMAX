@@ -1,5 +1,5 @@
 const css = require("css");
-const styleConfig = require("./style-config");
+const styleConfig = require("../style-config");
 
 class WebMAXStyleProcessor {
   static processScoped(cssContent, componentId) {
@@ -28,18 +28,16 @@ class WebMAXStyleProcessor {
         rule.declarations.forEach((decl) => {
           if (decl.type !== "declaration") return;
 
-          // 1. Приводим всё к нижнему регистру (FONT-SIZE -> font-size)
           const cleanProp = decl.property.toLowerCase();
 
-          // 2. Превращаем в camelCase (font-size -> fontSize)
           const prop = cleanProp.replace(/-([a-z])/g, (g) =>
             g[1].toUpperCase(),
           );
 
           if (styleConfig.isSupported(prop)) {
             let value = decl.value;
+            let nativeValue = value;
 
-            // Приводим значение к нижнему регистру для обработки единиц (12PX -> 12px)
             const lowerValue = String(value).toLowerCase();
 
             if (lowerValue.endsWith("px")) {
@@ -50,6 +48,16 @@ class WebMAXStyleProcessor {
             }
 
             styleMap[firstSelector][prop] = value;
+
+            if (
+              !isNaN(nativeValue) &&
+              !lowerValue.includes("px") &&
+              !lowerValue.includes("%") &&
+              !lowerValue.includes("em") &&
+              !lowerValue.includes("rem")
+            ) {
+              decl.value = nativeValue + "px";
+            }
           } else {
             console.warn(
               `\x1b[33m[WebMAX Style Warning]\x1b[0m Property "${decl.property}" not supported on Native.`,

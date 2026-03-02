@@ -5,15 +5,13 @@
   "main": "index.js",
   "types": "index.d.ts",
   "bin": {
-    "webmax-build": "./bin/cli.js"
+    "webmax": "./bin/cli.js"
   },
   "files": [
     "bin",
     "index.js",
     "index.d.ts",
-    "compiler.js",
-    "engine.js",
-    "styles.js",
+    "core",
     "style-config.js"
   ],
   "scripts": {

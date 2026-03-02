@@ -1,25 +1,34 @@
 {
   "platform": "native",
-  "compiledAt": "2026-02-27T20:58:41.301Z",
+  "compiledAt": "2026-03-02T20:05:39.847Z",
   "tree": [
     {
       "action": "START_NODE",
       "type": "View",
       "props": {
         "class": "container",
-        "style": {
-          "padding": 20
-        }
+        "events": {}
       }
     },
     {
       "action": "START_NODE",
       "type": "Text",
-      "props": {}
+      "props": {
+        "events": {}
+      }
     },
     {
       "action": "TEXT",
-      "value": "Hello, Max!"
+      "value": "Hello, "
+    },
+    {
+      "action": "TEXT",
+      "value": "Max",
+      "binding": "user"
+    },
+    {
+      "action": "TEXT",
+      "value": "!"
     },
     {
       "action": "END_NODE",
